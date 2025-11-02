@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import type { Language } from "@/lib/i18n"
+import { useTheme } from "@/components/theme-provider"
 import { t } from "@/lib/i18n"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -9,30 +9,21 @@ import { Card } from "@/components/ui/card"
 import { Users, Award, Heart } from "lucide-react"
 
 export default function AboutPage() {
-  const [language, setLanguage] = useState<Language>("en")
+  const { language } = useTheme()
   const [cartCount, setCartCount] = useState(0)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    const saved = localStorage.getItem("language") as Language
-    if (saved) setLanguage(saved)
     const cart = localStorage.getItem("cart")
     if (cart) setCartCount(JSON.parse(cart).length)
   }, [])
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang)
-    localStorage.setItem("language", lang)
-  }
-
   if (!mounted) return null
 
-  const isArabic = language === "ar"
-
   return (
-    <div className={isArabic ? "rtl" : "ltr"}>
-      <Header language={language} onLanguageChange={handleLanguageChange} cartCount={cartCount} />
+    <div>
+      <Header cartCount={cartCount} />
 
       <main>
         {/* Hero Section */}
@@ -40,7 +31,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">{t("aboutUs", language)}</h1>
             <p className="text-lg text-muted-foreground">
-              Learn about our mission to provide the best pet supplies and care for your beloved companions.
+              {t("bestPetsSupplies", language)}
             </p>
           </div>
         </section>
@@ -50,18 +41,15 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-in">
-                <h2 className="text-3xl font-bold mb-6">Our Story</h2>
+                <h2 className="text-3xl font-bold mb-6">{t("ourStory", language)}</h2>
                 <p className="text-muted-foreground mb-4">
-                  PetHouse was founded with a simple mission: to provide pet lovers with access to high-quality,
-                  affordable pet supplies. We believe that every pet deserves the best care and attention.
+                  {t("bestPetsSupplies", language)}
                 </p>
                 <p className="text-muted-foreground mb-4">
-                  Our team is passionate about pets and committed to helping you find exactly what your furry,
-                  feathered, or scaly friends need to thrive.
+                  {t("qualityProducts", language)}
                 </p>
                 <p className="text-muted-foreground">
-                  From premium food to toys and accessories, we carefully curate our collection to ensure quality and
-                  value for every pet owner.
+                  {t("fastDelivery", language)}
                 </p>
               </div>
 
@@ -81,23 +69,23 @@ export default function AboutPage() {
         {/* Values Section */}
         <section className="py-16 md:py-24 bg-card">
           <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Our Values</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t("ourValues", language)}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   icon: Heart,
-                  title: "Pet Care",
-                  desc: "We prioritize the health and happiness of your pets above all else.",
+                  title: t("petCare", language),
+                  desc: t("petCareDesc", language),
                 },
                 {
                   icon: Award,
-                  title: "Quality",
-                  desc: "We only stock products from trusted brands that meet our high standards.",
+                  title: t("quality", language),
+                  desc: t("qualityDesc", language),
                 },
                 {
                   icon: Users,
-                  title: "Community",
-                  desc: "We're building a community of pet lovers who support each other.",
+                  title: t("community", language),
+                  desc: t("communityDesc", language),
                 },
               ].map((value, i) => (
                 <Card
@@ -117,16 +105,15 @@ export default function AboutPage() {
         {/* Team Section */}
         <section className="py-16 md:py-24">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12">Our Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-12">{t("ourTeam", language)}</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Our dedicated team is passionate about pets and committed to providing you with the best shopping
-              experience. We're always here to help!
+              {t("teamDesc", language)}
             </p>
           </div>
         </section>
       </main>
 
-      <Footer language={language} />
+      <Footer />
     </div>
   )
 }

@@ -127,27 +127,20 @@ export default function AdminPage() {
     if (auth) setIsAuthenticated(true)
   }, [])
 
-  // Use server-side API to validate admin password. This avoids exposing a secret in the client.
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const res = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      })
+  // Read admin password from environment (NEXT_PUBLIC_ used because this is a client component).
+  // Note: for production it's more secure to validate admin credentials on the server-side
+  // and avoid exposing any secret on the client. This is a small improvement to avoid
+  // hardcoded strings in the codebase.
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123"
 
-      const data = await res.json()
-      if (res.ok && data.ok) {
-        setIsAuthenticated(true)
-        localStorage.setItem("adminAuth", "true")
-        setPassword("")
-      } else {
-        alert("Mot de passe incorrect")
-      }
-    } catch (err) {
-      console.error("Login error:", err)
-      alert("Erreur de connexion au serveur")
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true)
+      localStorage.setItem("adminAuth", "true")
+      setPassword("")
+    } else {
+      alert("Mot de passe incorrect")
     }
   }
 

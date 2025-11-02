@@ -1,14 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { type Language, t } from "@/lib/i18n"
+import { t } from "@/lib/i18n"
+import { useTheme } from "@/components/theme-provider"
 import { Mail, Phone, MapPin, Instagram } from "lucide-react"
 
-interface FooterProps {
-  language: Language
-}
-
-export function Footer({ language }: FooterProps) {
+export function Footer() {
+  const { language } = useTheme()
   const isArabic = language === "ar"
 
   return (
@@ -19,7 +17,7 @@ export function Footer({ language }: FooterProps) {
           <div>
             <h3 className="font-bold text-lg text-primary mb-4">PetHouse</h3>
             <p className="text-muted-foreground text-sm">
-              Your trusted pet supplies store with quality products for all your beloved pets.
+              {t("trustedPetSupplies", language)}
             </p>
           </div>
 
@@ -58,7 +56,7 @@ export function Footer({ language }: FooterProps) {
 
           {/* Company */}
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4">{t("company", language)}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
@@ -105,7 +103,7 @@ export function Footer({ language }: FooterProps) {
         </div>
 
         <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 PetHouse. All rights reserved.</p>
+          <p>&copy; 2025 PetHouse. {t("allRightsReserved", language)}</p>
         </div>
       </div>
     </footer>

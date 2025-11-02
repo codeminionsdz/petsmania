@@ -1,17 +1,13 @@
 "use client"
-import type { Language } from "@/lib/i18n"
+import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 
-interface LanguageSwitcherProps {
-  currentLanguage: Language
-  onLanguageChange: (lang: Language) => void
-}
+export function LanguageSwitcher() {
+  const { language, setLanguage } = useTheme()
 
-export function LanguageSwitcher({ currentLanguage, onLanguageChange }: LanguageSwitcherProps) {
-  const languages: { code: Language; label: string }[] = [
-    { code: "en", label: "English" },
-    { code: "fr", label: "Français" },
-    { code: "ar", label: "العربية" },
+  const languages = [
+    { code: "fr" as const, label: "Français" },
+    { code: "ar" as const, label: "العربية" },
   ]
 
   return (
@@ -19,9 +15,9 @@ export function LanguageSwitcher({ currentLanguage, onLanguageChange }: Language
       {languages.map((lang) => (
         <Button
           key={lang.code}
-          variant={currentLanguage === lang.code ? "default" : "outline"}
+          variant={language === lang.code ? "default" : "outline"}
           size="sm"
-          onClick={() => onLanguageChange(lang.code)}
+          onClick={() => setLanguage(lang.code)}
           className="text-xs"
         >
           {lang.label}

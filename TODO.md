@@ -1,16 +1,38 @@
-# TODO: Fix Admin Delete Functionality
+# TODO: Add Arabic Language Support and Theme Toggle
+
+## Information Gathered
+- Current project supports only French ("fr") in lib/i18n.ts.
+- LanguageSwitcher component exists but has type mismatch (includes "en" and "ar" but only "fr" defined).
+- ThemeProvider handles dark/light theme but not language.
+- Header has navigation but no language switcher or theme toggle.
+- Layout sets lang="fr" statically.
+
+## Plan
+- Update lib/i18n.ts: Add "ar" to Language type, add Arabic translations for all keys.
+- Update components/theme-provider.tsx: Add language state management, provide context for language and theme.
+- Update components/language-switcher.tsx: Use language context, fix types.
+- Update components/header.tsx: Add language switcher and theme toggle icons in the header.
+- Update app/layout.tsx: Use language from context for html lang and dir (RTL for Arabic).
+- Update lib/i18n.ts: Modify t function to use current language from context.
+
+## Dependent Files to Edit
+- lib/i18n.ts
+- components/theme-provider.tsx
+- components/language-switcher.tsx
+- components/header.tsx
+- app/layout.tsx
+
+## Followup Steps
+- Test language switching and theme toggle.
+- Run the app to verify RTL layout for Arabic.
+- Ensure all text switches correctly.
 
 ## Completed Tasks
-- [x] Updated `lib/supabase-server.ts` to use `SUPABASE_SERVICE_ROLE_KEY` for admin operations
-- [x] Modified `app/admin/page.tsx` to use `getSupabaseServer()` instead of `getSupabaseClient()`
-- [x] Made all Supabase operations async in admin page
-
-## Remaining Tasks
-- [ ] Add `SUPABASE_SERVICE_ROLE_KEY` to `.env.local` file
-- [ ] Test delete functionality for products and orders
-- [ ] Verify that other admin operations (add, edit, update status) still work
-
-## Notes
-- The service role key bypasses RLS policies, allowing delete operations
-- Ensure the key is kept secure and not exposed in client-side code
-- If issues persist, check Supabase dashboard for any additional permissions or policies
+- [x] Updated lib/i18n.ts with Arabic translations and language type
+- [x] Enhanced theme-provider.tsx with language context
+- [x] Fixed language-switcher.tsx to use context
+- [x] Added language switcher and theme toggle to header.tsx
+- [x] Updated layout.tsx for dynamic lang and dir
+- [x] Updated about/page.tsx to use context
+- [x] Updated footer.tsx to use context
+- [x] Started development server
